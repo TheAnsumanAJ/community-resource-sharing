@@ -1,0 +1,97 @@
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+}
+
+model User {
+
+ id String @id
+ email String @unique
+ name String?
+ phone String?
+ address String?
+
+ role String @default("user")
+ suspended Boolean @default(false)
+
+ resources Resource[]
+ borrowRequests BorrowRequest[]
+
+ reviewsWritten Review[] @relation("Reviewer")
+ reviewsReceived Review[] @relation("ReviewTarget")
+
+ notifications Notification[]
+
+ createdAt DateTime @default(now())
+
+}
+
+model Resource {
+
+ id String @id @default(uuid())
+
+ title String
+ description String
+ category String
+
+ ownerId String
+ owner User @relation(fields: [ownerId], references: [id])
+
+ available Boolean @default(true)
+
+ borrowRequests BorrowRequest[]
+
+ createdAt DateTime @default(now())
+
+}
+
+model BorrowRequest {
+
+ id String @id @default(uuid())
+
+ resourceId String
+ resource Resource @relation(fields: [resourceId], references: [id])
+
+ borrowerId String
+ borrower User @relation(fields: [borrowerId], references: [id])
+
+ status String @default("pending")
+
+ createdAt DateTime @default(now())
+
+}
+
+model Review {
+
+ id String @id @default(uuid())
+
+ rating Int
+ comment String
+
+ reviewerId String
+ reviewer User @relation("Reviewer", fields: [reviewerId], references: [id])
+
+ userId String
+ user User @relation("ReviewTarget", fields: [userId], references: [id])
+
+ createdAt DateTime @default(now())
+
+}
+
+model Notification {
+
+ id String @id @default(uuid())
+
+ userId String
+ user User @relation(fields: [userId], references: [id])
+
+ message String
+ read Boolean @default(false)
+
+ createdAt DateTime @default(now())
+
+}
