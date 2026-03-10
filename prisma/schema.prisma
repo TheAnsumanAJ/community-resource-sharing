@@ -4,94 +4,74 @@ generator client {
 
 datasource db {
  provider = "postgresql"
- url = env("DATABASE_URL")
+ url      = env("DATABASE_URL")
 }
 
 model User {
-
- id String @id
- email String @unique
- name String?
- phone String?
- address String?
-
- role String @default("user")
- suspended Boolean @default(false)
-
- resources Resource[]
- borrowRequests BorrowRequest[]
-
- reviewsWritten Review[] @relation("Reviewer")
- reviewsReceived Review[] @relation("ReviewTarget")
-
- notifications Notification[]
-
+ id        String   @id
+ email     String   @unique
+ name      String?
+ avatar    String?
+ phone     String?
+ bio       String?
+ role      String   @default("user")
  createdAt DateTime @default(now())
 
+ resources      Resource[]
+ borrowRequests BorrowRequest[]
+ notifications  Notification[]
+ reviews        Review[]        @relation("ReviewAuthor")
 }
 
 model Resource {
-
- id String @id @default(uuid())
-
- title String
+ id          String   @id @default(uuid())
+ title       String
  description String
- category String
+ category    String
+ image       String?
+ available   Boolean  @default(true)
 
  ownerId String
- owner User @relation(fields: [ownerId], references: [id])
-
- available Boolean @default(true)
-
- borrowRequests BorrowRequest[]
+ owner   User   @relation(fields: [ownerId], references: [id])
 
  createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
 
+ borrowRequests BorrowRequest[]
+ reviews        Review[]
 }
 
 model BorrowRequest {
-
  id String @id @default(uuid())
 
  resourceId String
- resource Resource @relation(fields: [resourceId], references: [id])
-
  borrowerId String
- borrower User @relation(fields: [borrowerId], references: [id])
+ status     String   @default("pending")
+ returnedAt DateTime?
+ createdAt  DateTime @default(now())
 
- status String @default("pending")
-
- createdAt DateTime @default(now())
-
-}
-
-model Review {
-
- id String @id @default(uuid())
-
- rating Int
- comment String
-
- reviewerId String
- reviewer User @relation("Reviewer", fields: [reviewerId], references: [id])
-
- userId String
- user User @relation("ReviewTarget", fields: [userId], references: [id])
-
- createdAt DateTime @default(now())
-
+ resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+ borrower User     @relation(fields: [borrowerId], references: [id])
 }
 
 model Notification {
-
- id String @id @default(uuid())
-
- userId String
- user User @relation(fields: [userId], references: [id])
-
+ id      String  @id @default(uuid())
  message String
- read Boolean @default(false)
+ read    Boolean @default(false)
 
+ userId    String
+ user      User     @relation(fields: [userId], references: [id])
  createdAt DateTime @default(now())
+}
 
+model Review {
+ id         String   @id @default(uuid())
+ rating     Int
+ comment    String
+ resourceId String
+ reviewerId String
+ createdAt  DateTime @default(now())
+
+ resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+ reviewer User     @relation("ReviewAuthor", fields: [reviewerId], references: [id])
 }

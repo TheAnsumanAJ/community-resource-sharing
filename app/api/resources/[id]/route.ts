@@ -1,63 +1,75 @@
 import { prisma } from "@/lib/prisma"
 import { auth } from "@clerk/nextjs/server"
+import { NextRequest } from "next/server"
 
+export async function GET(
+ req: NextRequest,
+ { params }: { params: Promise<{ id: string }> }
+) {
+ const { id } = await params
 
-
-export async function GET(req: Request) {
-
- const { searchParams } = new URL(req.url)
-
- const search = searchParams.get("search")
-
- const resources = await prisma.resource.findMany({
-
-  where:{
-   title:{
-    contains: search || "",
-    mode:"insensitive"
-   }
+ const resource = await prisma.resource.findUnique({
+  where: { id },
+  include: {
+   owner: true,
+   reviews: { include: { reviewer: true }, orderBy: { createdAt: "desc" } },
   },
-
-  include:{
-   owner:true
-  },
-
-  orderBy:{
-   createdAt:"desc"
-  }
-
  })
 
- return Response.json(resources)
+ if (!resource) {
+  return Response.json({ error: "Not found" }, { status: 404 })
+ }
 
+ return Response.json(resource)
 }
 
-
-
-export async function POST(req: Request) {
-
+export async function PUT(
+ req: NextRequest,
+ { params }: { params: Promise<{ id: string }> }
+) {
  const { userId } = await auth()
+ const { id } = await params
 
- if(!userId){
-  return Response.json(
-   { error:"Unauthorized" },
-   { status:401 }
-  )
+ if (!userId) {
+  return Response.json({ error: "Unauthorized" }, { status: 401 })
+ }
+
+ const existing = await prisma.resource.findUnique({ where: { id } })
+ if (!existing || existing.ownerId !== userId) {
+  return Response.json({ error: "Forbidden" }, { status: 403 })
  }
 
  const body = await req.json()
 
- const resource = await prisma.resource.create({
-
-  data:{
+ const resource = await prisma.resource.update({
+  where: { id },
+  data: {
    title: body.title,
    description: body.description,
    category: body.category,
-   ownerId: userId
-  }
-
+  },
  })
 
  return Response.json(resource)
+}
 
+export async function DELETE(
+ req: NextRequest,
+ { params }: { params: Promise<{ id: string }> }
+) {
+ const { userId } = await auth()
+ const { id } = await params
+
+ if (!userId) {
+  return Response.json({ error: "Unauthorized" }, { status: 401 })
+ }
+
+ const existing = await prisma.resource.findUnique({ where: { id } })
+ if (!existing || existing.ownerId !== userId) {
+  return Response.json({ error: "Forbidden" }, { status: 403 })
+ }
+
+ await prisma.resource.delete({ where: { id } })
+
+ return Response.json({ success: true })
 }
