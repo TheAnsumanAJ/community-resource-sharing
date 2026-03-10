@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Package, Github, Mail } from "lucide-react"
+import { Package, Github, Instagram, Mail } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
 
 export default function Footer() {
@@ -67,6 +67,16 @@ export default function Footer() {
                                     className="hover:text-foreground transition-colors flex items-center gap-1.5"
                                 >
                                     <Github className="w-3.5 h-3.5" /> GitHub
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.instagram.com/ansuman._.aj?igsh=MW53ZnUzcWU5cDN1ZQ=="
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-foreground transition-colors flex items-center gap-1.5"
+                                >
+                                    <Instagram className="w-3.5 h-3.5" /> Instagram
                                 </a>
                             </li>
                         </ul>

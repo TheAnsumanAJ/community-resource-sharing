@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
   const { data, error } = await resend.emails.send({
    from: "CommunityShare <onboarding@resend.dev>",
-   to: process.env.DEVELOPER_EMAIL || "ansumanaj07@gmail.com",
+   to: process.env.DEVELOPER_EMAIL || "ajthecreator07@gmail.com",
    subject: `New Contact from ${name} — CommunityShare`,
    html: `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
