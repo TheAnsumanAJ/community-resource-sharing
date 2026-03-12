@@ -11,7 +11,7 @@ export default function Navbar() {
    <div className="flex items-center justify-between h-16 px-6">
     <div className="flex items-center gap-6">
      <Link href="/dashboard" className="flex items-center gap-2">
-      <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+      <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
        <Package className="w-4 h-4 text-primary-foreground" />
       </div>
       <span className="font-bold text-lg tracking-tight hidden sm:inline">CommunityShare</span>

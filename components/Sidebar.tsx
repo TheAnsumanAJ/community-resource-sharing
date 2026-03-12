@@ -36,19 +36,21 @@ export default function Sidebar() {
  }, [])
 
  return (
-  <aside className="w-64 min-h-[calc(100vh-4rem)] border-r border-border/50 bg-sidebar flex flex-col">
-   <div className="p-4">
+  <aside className="w-full md:w-64 min-h-auto md:min-h-[calc(100vh-4rem)] border-b md:border-b-0 md:border-r border-border/50 bg-sidebar flex flex-row md:flex-col overflow-x-auto md:overflow-visible shrink-0 items-center md:items-stretch">
+   <div className="p-2 md:p-4 shrink-0">
     <Link href="/resources/new">
-     <Button className="w-full gap-2 shadow-md shadow-primary/10">
+     <Button className="w-auto md:w-full gap-2 shadow-md shadow-primary/10 whitespace-nowrap">
       <Plus className="w-4 h-4" />
-      New Resource
+      <span className="hidden md:inline">New Resource</span>
+      <span className="md:hidden">New</span>
      </Button>
     </Link>
    </div>
 
-   <Separator className="opacity-50" />
+   <Separator orientation="vertical" className="md:hidden h-8 mx-1 opacity-50 shrink-0" />
+   <Separator className="hidden md:block opacity-50" />
 
-   <nav className="flex-1 px-3 py-4 space-y-1">
+   <nav className="flex-1 px-2 py-2 md:px-3 md:py-4 flex flex-row md:flex-col gap-1 md:gap-1.5 md:space-y-1 items-center md:items-stretch min-w-max md:min-w-0">
     {mainLinks.map((link) => {
      const isActive =
       pathname === link.href ||
@@ -58,16 +60,17 @@ export default function Sidebar() {
        key={link.href}
        href={link.href}
        className={cn(
-        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+        "flex items-center gap-2 md:gap-3 px-3 py-2 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap shrink-0",
         isActive
          ? "bg-primary/10 text-primary shadow-sm"
          : "text-muted-foreground hover:bg-accent hover:text-foreground"
        )}
       >
-       <link.icon className={cn("w-4 h-4", isActive && "text-primary")} />
-       {link.label}
+       <link.icon className={cn("w-4 h-4 shrink-0", isActive && "text-primary")} />
+       <span className="hidden md:inline">{link.label}</span>
+       <span className="md:hidden text-xs">{link.label.split(' ')[0]}</span>
        {link.label === "Notifications" && (
-        <span className="ml-auto w-2 h-2 rounded-full bg-chart-1 animate-pulse" />
+        <span className="ml-1 md:ml-auto w-2 h-2 rounded-full bg-chart-1 animate-pulse shrink-0" />
        )}
       </Link>
      )
@@ -75,26 +78,28 @@ export default function Sidebar() {
    </nav>
 
    {role === "admin" && (
-    <>
-     <Separator className="opacity-50" />
-     <div className="px-3 py-4">
-      <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+    <div className="flex flex-row md:flex-col items-center md:items-stretch shrink-0">
+     <Separator orientation="vertical" className="md:hidden h-8 mx-1 opacity-50" />
+     <Separator className="hidden md:block opacity-50" />
+     <div className="px-2 py-2 md:px-3 md:py-4 flex flex-row md:flex-col items-center md:items-stretch">
+      <p className="hidden md:block px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
        Admin
       </p>
       <Link
        href="/dashboard/admin"
        className={cn(
-        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+        "flex items-center gap-2 md:gap-3 px-3 py-2 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
         pathname === "/dashboard/admin"
          ? "bg-primary/10 text-primary shadow-sm"
          : "text-muted-foreground hover:bg-accent hover:text-foreground"
        )}
       >
-       <Shield className="w-4 h-4" />
-       Admin Panel
+       <Shield className="w-4 h-4 shrink-0" />
+       <span className="hidden md:inline">Admin Panel</span>
+       <span className="md:hidden text-xs">Admin</span>
       </Link>
      </div>
-    </>
+    </div>
    )}
 
    <Separator className="opacity-50" />

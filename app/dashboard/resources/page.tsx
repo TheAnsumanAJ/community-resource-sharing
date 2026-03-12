@@ -68,31 +68,31 @@ export default function DashboardResources() {
 
  return (
   <div className="space-y-6">
-   <div className="flex items-center justify-between">
+   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
     <div>
      <h1 className="text-3xl font-bold tracking-tight mb-1">Resources</h1>
      <p className="text-muted-foreground">Manage and browse community resources</p>
     </div>
-    <Link href="/resources/new">
-     <Button className="gap-2">
+    <Link href="/resources/new" className="w-full sm:w-auto">
+     <Button className="gap-2 w-full sm:w-auto">
       <Plus className="w-4 h-4" /> New Resource
      </Button>
     </Link>
    </div>
 
    {/* Filters */}
-   <div className="flex gap-3">
-    <div className="relative flex-1 max-w-sm">
+   <div className="flex flex-col sm:flex-row gap-3">
+    <div className="relative flex-1 w-full sm:max-w-sm">
      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
      <Input
       placeholder="Search resources..."
-      className="pl-9"
+      className="pl-9 w-full"
       value={search}
       onChange={(e) => setSearch(e.target.value)}
      />
     </div>
     <Select value={category} onValueChange={setCategory}>
-     <SelectTrigger className="w-40">
+     <SelectTrigger className="w-full sm:w-40">
       <SelectValue />
      </SelectTrigger>
      <SelectContent>

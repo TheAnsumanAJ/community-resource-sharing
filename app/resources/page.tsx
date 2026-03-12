@@ -45,18 +45,18 @@ export default function ResourcesPage() {
     <p className="text-muted-foreground">Find tools, books, and more from your community</p>
    </div>
 
-   <div className="flex gap-3 mb-6">
-    <div className="relative flex-1 max-w-sm">
+   <div className="flex flex-col sm:flex-row gap-3 mb-6">
+    <div className="relative flex-1 w-full sm:max-w-sm">
      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
      <Input
       placeholder="Search resources..."
-      className="pl-9"
+      className="pl-9 w-full"
       value={search}
       onChange={(e) => setSearch(e.target.value)}
      />
     </div>
     <Select value={category} onValueChange={setCategory}>
-     <SelectTrigger className="w-40">
+     <SelectTrigger className="w-full sm:w-40">
       <SelectValue />
      </SelectTrigger>
      <SelectContent>

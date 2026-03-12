@@ -47,15 +47,15 @@ export default function Home() {
    <div className="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] rounded-full bg-chart-2/10 blur-[100px] animate-pulse-glow pointer-events-none" />
 
    {/* Nav */}
-   <nav className="relative z-10 flex items-center justify-between px-8 py-5 max-w-7xl mx-auto">
-    <div className="flex items-center gap-2">
-     <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-      <Package className="w-5 h-5 text-primary-foreground" />
+   <nav className="relative z-10 flex items-center justify-between px-4 sm:px-8 py-5 max-w-7xl mx-auto gap-2">
+    <div className="flex items-center gap-2 min-w-0">
+     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-primary flex items-center justify-center shrink-0">
+      <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
      </div>
-     <span className="text-lg font-bold tracking-tight">CommunityShare</span>
+     <span className="text-base sm:text-lg font-bold tracking-tight truncate">CommunityShare</span>
     </div>
-    <div className="flex items-center gap-3">
-     <Link href="/sign-in">
+    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+     <Link href="/sign-in" className="hidden sm:block">
       <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
        Sign In
       </Button>
@@ -84,14 +84,14 @@ export default function Home() {
       A platform where neighbors share tools, books, and equipment.
       Borrow what you need, lend what you have, and strengthen your community together.
      </p>
-     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <Link href="/sign-up">
-       <Button size="lg" className="text-base px-8 gap-2 shadow-lg shadow-primary/25">
+     <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-sm sm:max-w-none mx-auto">
+      <Link href="/sign-up" className="w-full sm:w-auto">
+       <Button size="lg" className="text-base px-8 gap-2 shadow-lg shadow-primary/25 w-full">
         Start Sharing <ArrowRight className="w-4 h-4" />
        </Button>
       </Link>
-      <Link href="/sign-in">
-       <Button size="lg" variant="outline" className="text-base px-8">
+      <Link href="/sign-in" className="w-full sm:w-auto">
+       <Button size="lg" variant="outline" className="text-base px-8 w-full">
         Sign In to Dashboard
        </Button>
       </Link>

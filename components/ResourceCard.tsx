@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Package, User, ArrowUpFromLine } from "lucide-react"
+import { Package, User, ArrowUpFromLine, Mail } from "lucide-react"
 import Link from "next/link"
 
 type Resource = {
@@ -84,12 +84,20 @@ export default function ResourceCard({ resource }: { resource: Resource }) {
     <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
      {resource.description}
     </p>
-    <div className="flex items-center justify-between">
-     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-      <User className="w-3 h-3" />
-      <span>{resource.owner?.name || resource.owner?.email || "Unknown"}</span>
+    <div className="flex items-start justify-between gap-2">
+     <div className="flex flex-col gap-1.5 text-xs text-muted-foreground min-w-0">
+      <div className="flex items-center gap-1.5">
+       <User className="w-3 h-3 shrink-0" />
+       <span className="truncate">{resource.owner?.name || "Unknown"}</span>
+      </div>
+      {resource.owner?.email && (
+       <a href={`mailto:${resource.owner.email}`} onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 hover:text-primary transition-colors min-w-0">
+        <Mail className="w-3 h-3 shrink-0" />
+        <span className="truncate">{resource.owner.email}</span>
+       </a>
+      )}
      </div>
-     <Badge variant="outline" className="text-xs">
+     <Badge variant="outline" className="text-xs shrink-0">
       {resource.category}
      </Badge>
     </div>
